@@ -1,8 +1,10 @@
 # LMR-BENCH: Evaluating LLM Agent’s Ability on Reproducing Language Modeling Research
 
 
-## Datasets & Scripts.
-Repo to be revised. Coming soon.
+## Overview
+*LMR-Bench* is a benchmark for evaluating large language model (LLM) agents on their ability to reproduce code from *NLP research papers*.
+Given a *research paper*, a *code repo with masked methods*, and a *implementation instruction*, an LLM agent is tasked with generating *patch* code to correctly fill in the missing methods. The benchmark covers 28 tasks from 23 top-tier NLP papers across nine research categories, providing a systematic way to assess the scientific reasoning and code synthesis abilities of LLMs.
+
 
 ### Abstract: 
  Large language model (LLM) agents have demonstrated remarkable potential in advancing scientific discovery. However, their capability in the fundamental yet crucial task of reproducing code from research papers, especially in the NLP domain, remains underexplored. This task includes unique complex reasoning challenges in the intellectual synthesis of abstract concepts and the comprehension of code repositories with interdependent files. Motivated by this gap, we present \ours, a comprehensive benchmark designed to systematically evaluate the capability of LLM agents on code reproduction from NLP research papers. It consists of 28 code reproduction tasks derived from 23 research papers published in top-tier NLP venues over the past five years, spanning nine fundamental categories. Models are provided with a research paper, a code repository containing one or more masked methods, and instructions for implementing these methods.
@@ -17,7 +19,7 @@ pip install -r requirements.txt
 ```
 
 <!-- ## Benchmark access -->
-<!-- The benchmark used in our paper can be downloaded in https://drive.google.com/drive/folders/1bkSx0ml4VobEV2bDfcrFdvi51yC5vSfu?usp=drive_link.
+<!-- The benchmark used in our paper can be downloaded from https://drive.google.com/drive/folders/1bkSx0ml4VobEV2bDfcrFdvi51yC5vSfu?usp=drive_link.
 
 The full benchmark will be updated in https://drive.google.com/drive/folders/1bkSx0ml4VobEV2bDfcrFdvi51yC5vSfu?usp=drive_link. -->
 
@@ -30,26 +32,55 @@ The full benchmark will be updated in https://drive.google.com/drive/folders/1bk
 ## Generation
 ### OpenHands
 #### Setup Environment and LLM Configuration
-Please follow instruction [here](https://github.com/All-Hands-AI/OpenHands/blob/main/evaluation/README.md#setup) to setup your local development environment and LLM. 
+Please follow instructions [here](https://github.com/All-Hands-AI/OpenHands/blob/main/evaluation/README.md#setup) to set up your local development environment and LLM. 
 
-We have not integrated our benchmark into OpenHands. So after finishing set up the develop environment, copy the downloaded benchmark before into the folder lmrbench/benchmark and then copy the folder lmrbench under OpenHands/evaluation/benchmark/datasets.
+We have not integrated our benchmark into OpenHands. So after finishing setting up the development environment, copy the downloaded benchmark into the folder lmrbench/benchmark and then copy the folder lmrbench under OpenHands/evaluation/benchmark/datasets.
 
-The structure of the directory of lmrbench should be like the following:
+The structure of the directory of LMR-Bench should be like the following:
 ```text
-lmrbench/
-├── benchmark/
+LMR-Bench/
+├── benchmark/                        # Contains all evaluation tasks and raw data. Each project is a subfolder.
 │   └── project_folder_1/
 │       ├── repository_folder_1/
-│       │   ├── ...
+│       │   ├── ...                   # Task-related code files
 │       │   └── unit_test/
-│       │       └── unit_test_1.py
-│       ├── info.json
-│       ├── Dockerfile
+│       │       └── unit_test_1.py    # Unit test scripts for this task
+│       ├── info.json                 # Metadata for this benchmark task
+│       ├── Dockerfile                # (If provided) Docker environment for reproducibility
 │       └── golden_files/
-│           └── ...
-└── scripts/
-    └── ...
+│           └── ...                   # Reference solutions or golden outputs
+├── evaluation/                       # Python modules for main evaluation logic
+│   ├── ...                           # Different evaluation modules/scripts
+├── generation/                       # Code for code generation/inference (e.g., with/without agent)
+│   ├── noagent/
+│   └── OpenHands/
+├── results/                          # Stores generated results (often .gitignored)
+│   ├── human_evaluation/
+│   ├── llm_as_a_judge_evaluation/
+│   ├── logs/
+│   └── unit_test_evaluation/
+├── scripts/                          # Shell scripts for running batch jobs, evaluation, etc.
+│   ├── base_agent_generation.sh
+│   ├── base_agent_generation_claude.sh
+│   ├── llm_as_a_judge_evaluation.sh
+│   ├── unit_test_evaluation.sh
+│   └── unit_test_evaluation_golden.sh
+├── utils/                            # Reusable Python utility modules
+│   ├── data_process/
+│   └── others/
+├── .gitattributes
+├── README.md
+└── requirements.txt
+
 ```
+
+- `benchmark/`: Contains all benchmark tasks. Each project/task is a subdirectory with its repository, metadata, unit tests, and golden/reference files.
+- `evaluation/`: Main Python evaluation logic (modularized if you have multiple scripts).
+- `generation/`: Code for generation/inference (with or without agents), organized by method.
+- `results/`: Output/results directories (recommend adding to `.gitignore`).
+- `scripts/`: Shell scripts for automated/batch execution (e.g., generating outputs, running evaluations).
+- `utils/`: Utility modules and functions that are reused across the codebase.
+
 
 #### Run Inference on LMR-Bench
 ```
