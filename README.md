@@ -16,7 +16,7 @@ python $\geq$ 3.12
 pip install -r requirements.txt
 ```
 
-## Benchmark access
+<!-- ## Benchmark access -->
 <!-- The benchmark used in our paper can be downloaded in https://drive.google.com/drive/folders/1bkSx0ml4VobEV2bDfcrFdvi51yC5vSfu?usp=drive_link.
 
 The full benchmark will be updated in https://drive.google.com/drive/folders/1bkSx0ml4VobEV2bDfcrFdvi51yC5vSfu?usp=drive_link. -->
@@ -88,7 +88,9 @@ sh scripts/base_agent_generation.sh /home/sxy240002/research_agent/NLPBench/benc
 ``` -->
 
 ### LLM-as-a-judge evaluation
+```
 sh scripts/llm_as_a_judge_evaluation.sh [DEST_PATH] [EVAL_RESULT_PATH]
+```
 
 <!-- example:
 ```
