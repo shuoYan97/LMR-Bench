@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -eo pipefail
 
-export TMPDIR="/home/sxy240002/tmp"
+export TMPDIR=""
 
 source "evaluation/utils/version_control.sh"
 

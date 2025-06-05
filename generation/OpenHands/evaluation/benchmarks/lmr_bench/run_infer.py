@@ -70,7 +70,6 @@ def get_config(
         'docker.io/xingyaoww/openhands-eval-scienceagentbench'
     )
     cache_path = GLOBAL_CACHE_PATH
-    # cache_path = "/home/sxy240002/research_agent/OpenHands/evaluation/benchmarks/lmrbench/outputs/claude3.5"
     config = AppConfig(
         default_agent=metadata.agent_class,
         run_as_openhands=False,
@@ -85,7 +84,7 @@ def get_config(
         workspace_base=None,
         workspace_mount_path=None,
         file_store_path=cache_path + "/file_store",
-        cache_dir="/home/sxy240002/research_agent/OpenHands/evaluation/benchmarks/lmrbench/cache",
+        cache_dir=cache_path + '/cache',
         save_trajectory_path= cache_path + "/save_trajectory"
     )
     config.set_llm_config(
@@ -165,7 +164,6 @@ def complete_runtime(
     zip_path = runtime.copy_from("/workspace/benchmark/datasets")
     
     dest = pathlib.Path(GLOBAL_DEST_PATH)
-    # dest = pathlib.Path("/home/sxy240002/research_agent/NLPAgentBench/outputs/OpenHands/claude3.5")
     dest.mkdir(parents=True, exist_ok=True)
     shutil.unpack_archive(zip_path, dest)
 

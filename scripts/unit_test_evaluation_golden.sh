@@ -1,10 +1,10 @@
 #!/bin/bash
 
 
-export TMPDIR=/home/sxy240002/tmp
-export TMP=/home/sxy240002/tmp
-export TEMPDIR=/home/sxy240002/tmp
-export TRANSFORMERS_CACHE=/home/sxy240002/transformers_cache
+export TMPDIR=""
+export TMP=""
+export TEMPDIR=""
+export TRANSFORMERS_CACHE=""
 export HUGGINGFACE_HUB_TOKEN=""
 
 
