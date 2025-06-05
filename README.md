@@ -39,47 +39,46 @@ We have not integrated our benchmark into OpenHands. So after finishing setting 
 The structure of the directory of LMR-Bench should be like the following:
 ```text
 LMR-Bench/
-├── benchmark/                        # Contains all evaluation tasks and raw data. Each project is a subfolder.
+├── benchmark/                        # Contains all datasets. Each project has a subfolder.
 │   └── project_folder_1/
 │       ├── repository_folder_1/
-│       │   ├── ...                   # Task-related code files
+│       │   ├── ...                   # Masked code repo (Rewrite & Mask)
 │       │   └── unit_test/
-│       │       └── unit_test_1.py    # Unit test scripts for this task
-│       ├── info.json                 # Metadata for this benchmark task
-│       ├── Dockerfile                # (If provided) Docker environment for reproducibility
+│       │       └── unit_test_1.py    # Unit test file (Annotated)
+│       ├── info.json                 # Metadata for this benchmark task. (Annotated)
+│       ├── Dockerfile                # Docker ENV for reproducibility. We've built and pushed Docker Images for each project to DOCKER HUB for faster evaluation.
 │       └── golden_files/
 │           └── ...                   # Reference solutions or golden outputs
 ├── evaluation/                       # Python modules for main evaluation logic
-│   ├── ...                           # Different evaluation modules/scripts
-├── generation/                       # Code for code generation/inference (e.g., with/without agent)
-│   ├── noagent/
+│   ├── ...                 
+├── generation/                       # Code for code generation/inference (e.g., noagent & necessary scripts for OpenHands)
+│   ├── NoAgent/
 │   └── OpenHands/
-├── results/                          # Stores generated results (often .gitignored)
+├── results/                      
 │   ├── human_evaluation/
 │   ├── llm_as_a_judge_evaluation/
 │   ├── logs/
 │   └── unit_test_evaluation/
-├── scripts/                          # Shell scripts for running batch jobs, evaluation, etc.
-│   ├── base_agent_generation.sh
-│   ├── base_agent_generation_claude.sh
+├── scripts/                          # Shell scripts for running generation and evaluation
+│   ├── no_agent_generation.sh
+│   ├── no_agent_generation_claude.sh
 │   ├── llm_as_a_judge_evaluation.sh
 │   ├── unit_test_evaluation.sh
 │   └── unit_test_evaluation_golden.sh
 ├── utils/                            # Reusable Python utility modules
 │   ├── data_process/
 │   └── others/
-├── .gitattributes
 ├── README.md
 └── requirements.txt
 
 ```
 
-- `benchmark/`: Contains all benchmark tasks. Each project/task is a subdirectory with its repository, metadata, unit tests, and golden/reference files.
-- `evaluation/`: Main Python evaluation logic (modularized if you have multiple scripts).
-- `generation/`: Code for generation/inference (with or without agents), organized by method.
-- `results/`: Output/results directories (recommend adding to `.gitignore`).
-- `scripts/`: Shell scripts for automated/batch execution (e.g., generating outputs, running evaluations).
-- `utils/`: Utility modules and functions that are reused across the codebase.
+- `benchmark/`: Contains all benchmark tasks. Each project is a subdirectory with its repository, metadata, unit tests, and golden/reference files.
+- `evaluation/`: Main Python evaluation logic.
+- `generation/`: Code for generation/inference (with or without agents), organized by method category. Add your agent under this folder if you want to test your performance. 
+- `results/`: Output/results directories.
+- `scripts/`: Shell scripts for automated/batch execution for generating outputs and running evaluations.
+- `utils/`: Utility modules and functions.
 
 
 #### Run Inference on LMR-Bench
