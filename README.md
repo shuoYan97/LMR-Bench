@@ -12,29 +12,16 @@ We conduct extensive experiments in standalone and agent-based settings on state
 Experimental results reveal that even the most advanced models still exhibit persistent limitations in scientific reasoning and code synthesis, highlighting critical gaps in LLMs’ ability to autonomously reproduce scientific research. We will release our benchmark and code after publication.
 
 
-## Environment
-python $\geq$ 3.12
+## Environment Setup
+LMR-Bench requires Python ≥ 3.12.
+
+We recommend using a virtual environment to avoid dependency conflicts.
+
+**1. Clone the repository**:
 ```
-pip install -r requirements.txt
+git clone git@github.com:du-nlp-lab/LMR-Bench.git
+cd LMR-Bench
 ```
-
-<!-- ## Benchmark access -->
-<!-- The benchmark used in our paper can be downloaded from https://drive.google.com/drive/folders/1bkSx0ml4VobEV2bDfcrFdvi51yC5vSfu?usp=drive_link.
-
-The full benchmark will be updated in https://drive.google.com/drive/folders/1bkSx0ml4VobEV2bDfcrFdvi51yC5vSfu?usp=drive_link. -->
-
-
-
-
-
-
-
-## Generation
-### OpenHands
-#### Setup Environment and LLM Configuration
-Please follow instructions [here](https://github.com/All-Hands-AI/OpenHands/blob/main/evaluation/README.md#setup) to set up your local development environment and LLM. 
-
-We have not integrated our benchmark into OpenHands. So after finishing setting up the development environment, copy the downloaded benchmark into the folder lmrbench/benchmark and then copy the folder lmrbench under OpenHands/evaluation/benchmark/datasets.
 
 The structure of the directory of LMR-Bench should be like the following:
 ```text
@@ -49,9 +36,10 @@ LMR-Bench/
 │       ├── Dockerfile                # Docker ENV for reproducibility. We've built and pushed Docker Images for each project to DOCKER HUB for faster evaluation.
 │       └── golden_files/
 │           └── ...                   # Reference solutions or golden outputs
-├── evaluation/                       # Python modules for main evaluation logic
+│
+├── evaluation/                       # Evaluation
 │   ├── ...                 
-├── generation/                       # Code for code generation/inference (e.g., noagent & necessary scripts for OpenHands)
+├── generation/                       # Generation/inference (noagent & necessary scripts for OpenHands)
 │   ├── NoAgent/
 │   └── OpenHands/
 ├── results/                      
@@ -59,16 +47,14 @@ LMR-Bench/
 │   ├── llm_as_a_judge_evaluation/
 │   ├── logs/
 │   └── unit_test_evaluation/
-├── scripts/                          # Shell scripts for running generation and evaluation
+├── scripts/                          # Shell scripts
 │   ├── no_agent_generation.sh
 │   ├── no_agent_generation_claude.sh
 │   ├── llm_as_a_judge_evaluation.sh
 │   ├── unit_test_evaluation.sh
 │   └── unit_test_evaluation_golden.sh
-├── utils/                            # Reusable Python utility modules
-│   ├── data_process/
-│   └── others/
-├── README.md
+├── utils/                            # Utility modules
+│   └── ...
 └── requirements.txt
 
 ```
@@ -77,13 +63,59 @@ LMR-Bench/
 - `evaluation/`: Main Python evaluation logic.
 - `generation/`: Code for generation/inference (with or without agents), organized by method category. Add your agent under this folder if you want to test your performance. 
 - `results/`: Output/results directories.
-- `scripts/`: Shell scripts for automated/batch execution for generating outputs and running evaluations.
+- `scripts/`: Shell scripts for automated/batch execution for running generation and evaluation.
 - `utils/`: Utility modules and functions.
 
+**2. Install dependencies**:
+```
+pip install -r requirements.txt
+```
+
+<!-- 3. **Download the benchmark:** The benchmark data used in our paper can be downloaded from [this link](https://drive.google.com/drive/folders/1bkSx0ml4VobEV2bDfcrFdvi51yC5vSfu?usp=drive_link). -->
+
+**Test your installation**:
+Run a sample evaluation script to ensure everything works:
+
+```
+python evaluation/unit_test_evaluation.py \
+    --output_repository_path generation/noagent/sample_repo \
+    --unit_test_evaluation_path results/unit_test_evaluation/sample_result
+```
+
+
+
+## ⚡ Generation
+
+### 🔧 OpenHands
+
+#### Environment and LLM Setup
+
+Please follow the official setup instructions in the [OpenHands repository](https://github.com/All-Hands-AI/OpenHands/blob/main/evaluation/README.md#setup) to configure your local development environment and LLM.
+
+#### Preparing LMR-Bench for OpenHands
+
+> **Integration steps:**  
+> 1. **Copy code:**  
+>    - Copy the folder `LMR-Bench/generation/OpenHands/evaluation/benchmarks/lmr_bench` into the corresponding path inside your OpenHands repository.
+> 2. **Copy benchmark data:**  
+>    - Copy `LMR-Bench/benchmark` under `OpenHands/evaluation/benchmarks/lmr_bench/` for evaluation.
+>
+> Your final structure in OpenHands should look like:
+> ```
+> OpenHands/
+> └── evaluation/
+>     └── benchmarks/
+>         └── lmr_bench/
+>             ├── <copied benchmark data>
+>             └── <code and scripts>
+> ```
 
 #### Run Inference on LMR-Bench
-```
-./evaluation/benchmarks/lmrbench/scripts/run_infer.sh [MODEL_CONFIG] [GIT-VERSION] [AGENT] [EVAL_LIMIT] [NUM_WORKERS] [EVAL_OUTPUT_DIR] [CACHE_PATH] [DEST_PATH]
+
+```bash
+./evaluation/benchmarks/lmrbench/scripts/run_infer.sh \
+    [MODEL_CONFIG] [GIT_VERSION] [AGENT] [EVAL_LIMIT] [NUM_WORKERS] \
+    [EVAL_OUTPUT_DIR] [CACHE_PATH] [DEST_PATH]
 ```
 
 EVAL_OUTPUT_DIR: Path to store OpenHands Agent's generation logs  
