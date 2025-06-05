@@ -50,48 +50,44 @@ Please follow instruction [here](https://github.com/All-Hands-AI/OpenHands/blob/
 We have not integrated our benchmark into OpenHands. So after finishing set up the develop environment, copy the downloaded benchmark before into the folder lmrbench/benchmark and then copy the folder lmrbench under OpenHands/evaluation/benchmark/datasets.
 
 #### Run Inference on LMR-Bench
-./evaluation/benchmarks/lmrbench/scripts/run_infer.sh [model_config] [git-version] [agent] [eval_limit] [num_workers] [eval_output_dir]
+./evaluation/benchmarks/lmrbench/scripts/run_infer.sh [model_config] [git-version] [agent] [eval_limit] [num_workers] [eval_output_dir] [cache_path] [dest_path]
+
+eval_output_dir: Path to store OpenHands Agent's generation logs
+cache_path: Path to store OpenHands Agent's detailed events and other cache. It can be same as eval_output_dir
+dest_path: Path to store the repositories after OpenHands Agent's revision.
 
 ##### Example
-./evaluation/benchmarks/lmrbench/scripts/run_infer.sh llm.eval_gpt4o "" "" "" "" "logs_path"
+./evaluation/benchmarks/lmrbench/scripts/run_infer.sh llm.eval_gpt4o "" "" "" "" [log_path] [log_path] [dest_path]
 
-
-cp -r benchmark OpenHands/evaluation/benchmarks/lmrbench/benchmark/datasets
-cd OpenHands
-./evaluation/benchmarks/lmrbench/scripts/run_infer.sh llm.eval_gpt41 "" "" "" "" "output_path" 
 
 <!-- The output_path above only saves logs of the agent. To save repositories revised by OpenHands, we need to revise line 68 and 162 in run_infer.py.
 The revised repositories will be saved in the folder written in line 162. -->
 
-example:
-```
-./evaluation/benchmarks/nlpbench/scripts/run_infer.sh llm.eval_claude35 "" "" "" "" /home/sxy240002/research_agent/OpenHands/evaluation/benchmarks/nlpbench/outputs/claude3.5
-```
 
 ### No Agent
-sh scripts/base_agent_generation.sh "datasets_folder" "output_repository_path"
+sh scripts/no_agent_generation.sh "datasets_folder" "output_repository_path"
 
 example:
 ```
-sh scripts/base_agent_generation.sh /home/sxy240002/research_agent/NLPBench/benchmark/datasets_final /home/sxy240002/research_agent/NLPBench/outputs/BaseAgent/gpt4o
+sh scripts/no_agent_generation.sh [dataset_path] [output_repository_path]
 ```
 
 ## Evaluation
 ### Unit test evaluation
 sh scripts/unit_test_evaluation.sh "output_repository_path" "unit_test_evaluation_path"
 
-example:
+<!-- example:
 ```
 sh scripts/base_agent_generation.sh /home/sxy240002/research_agent/NLPBench/benchmark/datasets_final /home/sxy240002/research_agent/NLPBench/outputs/BaseAgent/gpt4o
-```
+``` -->
 
 ### LLM-as-a-judge evaluation
 sh scripts/llm_as_a_judge_evaluation.sh "output_repository_path" "unit_test_evaluation_path"
 
-example:
+<!-- example:
 ```
 sh scripts/llm_as_a_judge_evaluation.sh /home/sxy240002/research_agent/NLPBench/outputs/BaseAgent/gpt4o /home/sxy240002/research_agent/NLPAgentBench/llm_as_a_judge_evaluation_results/BaseAgent/gpt4o
-```
+``` -->
 
 
 ## Analysis

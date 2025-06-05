@@ -39,6 +39,10 @@ AGENT_CLS_TO_FAKE_USER_RESPONSE_FN = {
 
 LOCAL_DATASET_PATH = os.path.join(os.path.dirname(__file__), 'benchmark')
 
+GLOBAL_CACHE_PATH: str = ""
+GLOBAL_DEST_PATH: str = ""
+
+
 
 
 
@@ -65,7 +69,8 @@ def get_config(
     sandbox_config.base_container_image = (
         'docker.io/xingyaoww/openhands-eval-scienceagentbench'
     )
-    cache_path = "/home/sxy240002/research_agent/OpenHands/evaluation/benchmarks/nlpbench/outputs/gpt4.1"
+    cache_path = GLOBAL_CACHE_PATH
+    # cache_path = "/home/sxy240002/research_agent/OpenHands/evaluation/benchmarks/lmrbench/outputs/claude3.5"
     config = AppConfig(
         default_agent=metadata.agent_class,
         run_as_openhands=False,
@@ -80,8 +85,8 @@ def get_config(
         workspace_base=None,
         workspace_mount_path=None,
         file_store_path=cache_path + "/file_store",
-        cache_dir="/home/sxy240002/research_agent/OpenHands/evaluation/benchmarks/nlpbench/cache",
-        save_trajectory_path= cache_path + "/save_trajectory/"
+        cache_dir="/home/sxy240002/research_agent/OpenHands/evaluation/benchmarks/lmrbench/cache",
+        save_trajectory_path= cache_path + "/save_trajectory"
     )
     config.set_llm_config(
         update_llm_config_for_completions_logging(
@@ -158,8 +163,9 @@ def complete_runtime(
 
 
     zip_path = runtime.copy_from("/workspace/benchmark/datasets")
-
-    dest = pathlib.Path("/home/sxy240002/research_agent/NLPAgentBench/outputs/OpenHands/gpt4.1")
+    
+    dest = pathlib.Path(GLOBAL_DEST_PATH)
+    # dest = pathlib.Path("/home/sxy240002/research_agent/NLPAgentBench/outputs/OpenHands/claude3.5")
     dest.mkdir(parents=True, exist_ok=True)
     shutil.unpack_archive(zip_path, dest)
 
@@ -263,10 +269,27 @@ def process_instance(
 
 if __name__ == '__main__':
     parser = get_parser()
-    args, _ = parser.parse_known_args()
+    parser.add_argument(
+        "--cache-path",
+        type=str,
+        required=True,
+        help="Specify the cache_path to use inside get_config"
+    )
+    parser.add_argument(
+        "--dest-path",
+        type=str,
+        required=True,
+        help="Specify the dest directory for complete_runtime to unpack archives"
+    )
+    # args, _ = parser.parse_known_args()
+    args= parser.parse_args()
+
+    # global GLOBAL_CACHE_PATH, GLOBAL_DEST_PATH
+    GLOBAL_CACHE_PATH = args.cache_path
+    GLOBAL_DEST_PATH = args.dest_path
 
 
-    dataset = load_dataset("Shinyy/NLPBench", split="train", download_mode="force_redownload")
+    dataset = load_dataset("Shinyy/LMR-Bench", split="train", download_mode="force_redownload")
 
     dataset_processed = []
     for example in tqdm(dataset):
@@ -287,7 +310,7 @@ if __name__ == '__main__':
 
     metadata = make_metadata(
         llm_config,
-        'LMRBench',
+        'LMR-Bench',
         args.agent_cls,
         args.max_iterations,
         args.eval_note,
