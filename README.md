@@ -73,7 +73,7 @@ pip install -r requirements.txt
 
 <!-- 3. **Download the benchmark:** The benchmark data used in our paper can be downloaded from [this link](https://drive.google.com/drive/folders/1bkSx0ml4VobEV2bDfcrFdvi51yC5vSfu?usp=drive_link). -->
 
-**Test your installation**:
+**3. Test your installation**:
 Run a sample evaluation script to ensure everything works:
 
 ```
@@ -118,9 +118,14 @@ Please follow the official setup instructions in the [OpenHands repository](http
     [EVAL_OUTPUT_DIR] [CACHE_PATH] [DEST_PATH]
 ```
 
-EVAL_OUTPUT_DIR: Path to store OpenHands Agent's generation logs  
-CACHE_PATH: Path to store OpenHands Agent's detailed events and other cache. It can be same as EVAL_OUTPUT_DIR  
+MODEL_CONFIG: LLM model configuration file
+
+EVAL_OUTPUT_DIR: Path to store OpenHands Agent's generation logs 
+
+CACHE_PATH: Path for OpenHands agent’s events and cache (This can be the same as EVAL_OUTPUT_DIR)
+
 DEST_PATH: Path to store the repositories after OpenHands Agent's revision.  
+
 
 ##### Example
 ```
