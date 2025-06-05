@@ -118,18 +118,17 @@ Please follow the official setup instructions in the [OpenHands repository](http
     [EVAL_OUTPUT_DIR] [CACHE_PATH] [DEST_PATH]
 ```
 
-MODEL_CONFIG: LLM model configuration file
+- **MODEL_CONFIG:** LLM model configuration file
+- **EVAL_OUTPUT_DIR:** Path to store OpenHands Agent's generation logs
+- **CACHE_PATH:** Path for OpenHands agent’s events and cache (this can be the same as EVAL_OUTPUT_DIR)
+- **DEST_PATH:** Path to store the repositories after OpenHands Agent's revision
 
-EVAL_OUTPUT_DIR: Path to store OpenHands Agent's generation logs 
-
-CACHE_PATH: Path for OpenHands agent’s events and cache (This can be the same as EVAL_OUTPUT_DIR)
-
-DEST_PATH: Path to store the repositories after OpenHands Agent's revision.  
 
 
 ##### Example
 ```
-./evaluation/benchmarks/lmrbench/scripts/run_infer.sh llm.eval_gpt4o "" "" "" "" [LOG_DIR] [LOG_DIR] [DEST_PATH]
+./evaluation/benchmarks/lmrbench/scripts/run_infer.sh \
+    llm.eval_gpt4o "" "" "" "" [LOG_DIR] [LOG_DIR] [DEST_PATH]
 ```
 
 
@@ -137,24 +136,37 @@ DEST_PATH: Path to store the repositories after OpenHands Agent's revision.
 The revised repositories will be saved in the folder written in line 162. -->
 
 
-### No Agent
-```
+### 🤖 No Agent
+
+To run code generation without an agent, use the following command:
+
+```bash
 sh scripts/no_agent_generation.sh [DATA_FOLDER] [DEST_PATH]
 ```
+- **DATA_FOLDER**: Path to your dataset folder (e.g., benchmark/)
+- **DEST_PATH**: Directory to store the generated repositories
 
 
-## Evaluation
-### Unit test evaluation
-```
+## 🧾 Evaluation
+
+### ✅ Unit Test Evaluation
+
+To run unit test evaluation on the generated repositories:
+
+```bash
 sh scripts/unit_test_evaluation.sh [DEST_PATH] [EVAL_RESULT_PATH]
 ```
-
+- **DEST_PATH**: Path to the generated repositories you want to evaluate
+- **EVAL_RESULT_PATH**: Directory to store unit test evaluation results
+- 
 <!-- example:
 ```
 sh scripts/base_agent_generation.sh /home/sxy240002/research_agent/NLPBench/benchmark/datasets_final /home/sxy240002/research_agent/NLPBench/outputs/BaseAgent/gpt4o
 ``` -->
 
-### LLM-as-a-judge evaluation
+### 🤖 LLM-as-a-Judge Evaluation
+To run LLM-as-a-judge evaluation on the generated repositories:
+
 ```
 sh scripts/llm_as_a_judge_evaluation.sh [DEST_PATH] [EVAL_RESULT_PATH]
 ```
@@ -163,10 +175,44 @@ sh scripts/llm_as_a_judge_evaluation.sh [DEST_PATH] [EVAL_RESULT_PATH]
 ```
 sh scripts/llm_as_a_judge_evaluation.sh /home/sxy240002/research_agent/NLPBench/outputs/BaseAgent/gpt4o /home/sxy240002/research_agent/NLPAgentBench/llm_as_a_judge_evaluation_results/BaseAgent/gpt4o
 ``` -->
+- **DEST_PATH**: Path to the generated repositories you want to evaluate
+- **EVAL_RESULT_PATH**: Directory to store LLM-as-a-judge evaluation results
 
 
-## Analysis
+## 📊 Analysis
 
-### Data contamination
-For performance of each sample, it is saved in the unit_test_evaluation and llm_as_a_judge folder.
-To calculate the similarity score, we compute a model’s familiarity with a given document as the mean probability a model assigns to each token in that document, conditional on all preceding tokens(MLE-Bench). We calculate the familarity with the goal file(file path is info.json for each paper).
+### 🧬 Data Contamination
+
+- For each sample, performance results are saved in the `results/unit_test_evaluation/` and `results/llm_as_a_judge_evaluation/` directories.
+- To assess data contamination, we compute a similarity score following the MLE-Bench approach:  
+  The model’s familiarity with a document is measured as the **mean probability assigned to each token**, conditioned on all preceding tokens.
+- Familiarity is calculated using the `info.json` file (the goal file) for each benchmark task.
+
+## ⬇️ Downloads
+
+The benchmark data used in our paper can be downloaded from [🔗 this link](https://drive.google.com/drive/folders/1bkSx0ml4VobEV2bDfcrFdvi51yC5vSfu?usp=drive_link).
+<!-- [💿 LMR-Bench](https://drive.google.com/drive/folders/1bkSx0ml4VobEV2bDfcrFdvi51yC5vSfu?usp=drive_link)-->
+
+## 💫 Contributions
+We would love to hear from the broader NLP, Machine Learning, and Software Engineering research communities, and we welcome any contributions, pull requests, or issues!
+To do so, please either file a new pull request or issue and fill in the corresponding templates accordingly. We'll be sure to follow up shortly!
+
+Contact person: [Zimu Wang] and [Ruochen Li] Email: zimu.wang@utdallas.edu, ruochen.li@utdallas.edu).
+
+## ✍️ Citation & license
+MIT license. Check `LICENSE.md`.
+
+If you find our work helpful, please use the following citations.
+
+```bibtex
+@inproceedings{
+    
+}
+```
+
+## Related projects
+
+<div align="center">
+  <a href="-"><img src="-" alt="sb-cli" height="120px"></a>
+   &nbsp;&nbsp;
+</div>
