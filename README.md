@@ -56,9 +56,9 @@ lmrbench/
 ./evaluation/benchmarks/lmrbench/scripts/run_infer.sh [MODEL_CONFIG] [GIT-VERSION] [AGENT] [EVAL_LIMIT] [NUM_WORKERS] [EVAL_OUTPUT_DIR] [CACHE_PATH] [DEST_PATH]
 ```
 
-EVAL_OUTPUT_DIR: Path to store OpenHands Agent's generation logs
-CACHE_PATH: Path to store OpenHands Agent's detailed events and other cache. It can be same as eval_output_dir
-DEST_PATH: Path to store the repositories after OpenHands Agent's revision.
+EVAL_OUTPUT_DIR: Path to store OpenHands Agent's generation logs  
+CACHE_PATH: Path to store OpenHands Agent's detailed events and other cache. It can be same as eval_output_dir  
+DEST_PATH: Path to store the repositories after OpenHands Agent's revision.  
 
 ##### Example
 ```
